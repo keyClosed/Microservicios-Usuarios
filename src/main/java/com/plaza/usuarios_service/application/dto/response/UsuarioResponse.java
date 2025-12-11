@@ -13,6 +13,7 @@ public class UsuarioResponse {
     private String correo;
     private String rol;
 
+    //DEJO EL CONSTRUCTOR CON PARAMETROS A VER SI MAS ADELANTE LO NECESITO EN ALGUNA HISOTRIA DE USUARIO
     public UsuarioResponse() {}
 
     public UsuarioResponse(Long id, String nombre, String apellido,
@@ -28,7 +29,7 @@ public class UsuarioResponse {
         this.rol = rol;
     }
 
-    // Getters y Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

@@ -40,18 +40,14 @@ class UsuarioControllerTest {
 
     @BeforeEach
     void setUp() {
-        // Registramos JavaTimeModule para que Jackson maneje LocalDate
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
 
         mockMvc = MockMvcBuilders.standaloneSetup(usuarioController)
-                .setControllerAdvice(new UsuarioControllerAdvice()) // tu clase de manejo de excepciones
+                .setControllerAdvice(new UsuarioControllerAdvice())
                 .build();
     }
 
-    // ==============================
-    // Métodos auxiliares
-    // ==============================
     private String generarNombreAleatorio() {
         return "Nombre_" + UUID.randomUUID().toString().substring(0, 5);
     }
@@ -61,7 +57,7 @@ class UsuarioControllerTest {
     }
 
     private String generarDocumentoAleatorio() {
-        return String.valueOf((int)(Math.random() * 90000000 + 10000000));
+        return String.valueOf((int) (Math.random() * 90000000 + 10000000));
     }
 
     private String generarCorreoAleatorio() {
@@ -69,23 +65,20 @@ class UsuarioControllerTest {
     }
 
     private String generarCelularValido() {
-        String[] operadores = {"300","301","302","310","311","312","313","314","315","316","317","318","319"};
-        String operador = operadores[(int)(Math.random() * operadores.length)];
+        String[] operadores = {"300", "301", "302", "310", "311", "312", "313", "314", "315", "316", "317", "318", "319"};
+        String operador = operadores[(int) (Math.random() * operadores.length)];
         StringBuilder numero = new StringBuilder("+57" + operador);
-        for (int i = 0; i < 7; i++) numero.append((int)(Math.random() * 10));
+        for (int i = 0; i < 7; i++) numero.append((int) (Math.random() * 10));
         return numero.toString();
     }
 
     private String generarClaveAleatoria() {
         int longitud = ThreadLocalRandom.current().nextInt(4, 9);
         StringBuilder clave = new StringBuilder();
-        for (int i = 0; i < longitud; i++) clave.append((int)(Math.random() * 10));
+        for (int i = 0; i < longitud; i++) clave.append((int) (Math.random() * 10));
         return clave.toString();
     }
 
-    // ==============================
-    // Test creación exitosa
-    // ==============================
     @Test
     void debeCrearUsuarioCorrectamente() throws Exception {
         CrearPropietarioRequest request = new CrearPropietarioRequest();
@@ -103,7 +96,7 @@ class UsuarioControllerTest {
         responseMock.setDocumentoIdentidad(request.getDocumentoIdentidad());
         responseMock.setCorreo(request.getCorreo());
 
-        doReturn(responseMock).when(handler).ejecutar(any(CrearPropietarioRequest.class));
+        doReturn(responseMock).when(handler).ejecutar(any());
 
         mockMvc.perform(post("/usuarios")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -115,9 +108,6 @@ class UsuarioControllerTest {
                 .andExpect(jsonPath("$.documentoIdentidad").value(request.getDocumentoIdentidad()));
     }
 
-    // ==============================
-    // Test menor de edad
-    // ==============================
     @Test
     void debeRetornarBadRequestSiElUsuarioEsMenorDeEdad() throws Exception {
         CrearPropietarioRequest request = new CrearPropietarioRequest();
@@ -130,7 +120,7 @@ class UsuarioControllerTest {
         request.setFechaNacimiento(LocalDate.now().minusYears(16));
 
         doThrow(new IllegalArgumentException("El usuario debe ser mayor de edad"))
-                .when(handler).ejecutar(any(CrearPropietarioRequest.class));
+                .when(handler).ejecutar(any());
 
         mockMvc.perform(post("/usuarios")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -139,9 +129,7 @@ class UsuarioControllerTest {
                 .andExpect(content().string("El usuario debe ser mayor de edad"));
     }
 
-    // ==============================
-    // Test documento duplicado
-    // ==============================
+
     @Test
     void debeRetornarBadRequestSiDocumentoDuplicado() throws Exception {
         String documentoDuplicado = generarDocumentoAleatorio();
@@ -149,7 +137,7 @@ class UsuarioControllerTest {
         CrearPropietarioRequest request1 = new CrearPropietarioRequest();
         request1.setNombre(generarNombreAleatorio());
         request1.setApellido(generarApellidoAleatorio());
-        request1.setDocumentoIdentidad(documentoDuplicado);
+        request1.setDocumentoIdentidad(documentoDuplicado); // ← corregido
         request1.setCorreo(generarCorreoAleatorio());
         request1.setClave(generarClaveAleatoria());
         request1.setCelular(generarCelularValido());
@@ -158,7 +146,7 @@ class UsuarioControllerTest {
         CrearPropietarioRequest request2 = new CrearPropietarioRequest();
         request2.setNombre(generarNombreAleatorio());
         request2.setApellido(generarApellidoAleatorio());
-        request2.setDocumentoIdentidad(documentoDuplicado);
+        request2.setDocumentoIdentidad(documentoDuplicado); // ← corregido
         request2.setCorreo(generarCorreoAleatorio());
         request2.setClave(generarClaveAleatoria());
         request2.setCelular(generarCelularValido());
@@ -170,10 +158,9 @@ class UsuarioControllerTest {
         responseMock.setDocumentoIdentidad(request1.getDocumentoIdentidad());
         responseMock.setCorreo(request1.getCorreo());
 
-        // Primera llamada OK, segunda llamada excepción
         doReturn(responseMock)
                 .doThrow(new IllegalArgumentException("Documento duplicado"))
-                .when(handler).ejecutar(any(CrearPropietarioRequest.class));
+                .when(handler).ejecutar(any());
 
         mockMvc.perform(post("/usuarios")
                         .contentType(MediaType.APPLICATION_JSON)

@@ -10,5 +10,5 @@ public interface UsuarioPersistencePort {
 
     Usuario guardarUsuario(Usuario usuario);
 
-    Usuario obtenerPorCorreo(String correo);  // 🔹 NECESARIO PARA LOGIN
+    Usuario obtenerPorCorreo(String correo);  //
 }

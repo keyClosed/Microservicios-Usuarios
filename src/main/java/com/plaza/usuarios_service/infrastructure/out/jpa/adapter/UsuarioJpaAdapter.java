@@ -5,6 +5,7 @@ import com.plaza.usuarios_service.domain.spi.UsuarioPersistencePort;
 import com.plaza.usuarios_service.infrastructure.out.jpa.entity.UsuarioEntity;
 import com.plaza.usuarios_service.infrastructure.out.jpa.mapper.UsuarioEntityMapper;
 import com.plaza.usuarios_service.infrastructure.out.jpa.repository.UsuarioRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,14 +13,19 @@ public class UsuarioJpaAdapter implements UsuarioPersistencePort {
 
     private final UsuarioRepository repository;
     private final UsuarioEntityMapper mapper;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public UsuarioJpaAdapter(UsuarioRepository repository, UsuarioEntityMapper mapper) {
+    public UsuarioJpaAdapter(UsuarioRepository repository,
+                             UsuarioEntityMapper mapper,
+                             BCryptPasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.mapper = mapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public Usuario guardarUsuario(Usuario usuario) {
+
         UsuarioEntity entity = mapper.toEntity(usuario);
         UsuarioEntity saved = repository.save(entity);
         return mapper.toDomain(saved);

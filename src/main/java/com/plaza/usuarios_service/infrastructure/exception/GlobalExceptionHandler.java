@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.validation.FieldError;
 
-// Esta clase manejará las excepciones globalmente en toda la aplicación
+//manejará las excepciones en toda la aplicación
 @ControllerAdvice
 public class GlobalExceptionHandler {
 

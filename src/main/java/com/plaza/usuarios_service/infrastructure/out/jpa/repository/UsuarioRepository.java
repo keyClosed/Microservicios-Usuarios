@@ -11,7 +11,7 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
 
     boolean existsByDocumentoIdentidad(String documentoIdentidad);
 
-    boolean existsByCorreo(String correo); // 🔹 para validar email existente
+    boolean existsByCorreo(String correo);
 
-    Optional<UsuarioEntity> findByCorreo(String correo); // 🔹 para login
+    Optional<UsuarioEntity> findByCorreo(String correo); //para login se usa despues
 }

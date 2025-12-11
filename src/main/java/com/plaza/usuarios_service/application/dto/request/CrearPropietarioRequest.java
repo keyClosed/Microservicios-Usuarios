@@ -33,13 +33,11 @@ public class CrearPropietarioRequest {
 
     public CrearPropietarioRequest() {}
 
-    // Validación de mayor de edad
     public boolean esMayorDeEdad() {
         return fechaNacimiento != null &&
                 Period.between(fechaNacimiento, LocalDate.now()).getYears() >= 18;
     }
 
-    // Getters y Setters
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 

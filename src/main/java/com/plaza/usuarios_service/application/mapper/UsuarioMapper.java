@@ -6,7 +6,7 @@ import com.plaza.usuarios_service.application.dto.response.UsuarioResponse;
 
 public class UsuarioMapper {
 
-    // Request -> Modelo de dominio
+
     public static Usuario toModel(CrearPropietarioRequest request) {
         Usuario usuario = new Usuario();
         usuario.setNombre(request.getNombre());
@@ -20,7 +20,6 @@ public class UsuarioMapper {
         return usuario;
     }
 
-    // Modelo de dominio -> Response
     public static UsuarioResponse toResponse(Usuario usuario) {
         UsuarioResponse response = new UsuarioResponse();
         response.setId(usuario.getId());

@@ -14,7 +14,7 @@ import java.time.LocalDate;
         private String rol;
 
         public Usuario() {}
-
+       //DEJAR EL CONSTRUCTOR CON PARAMETROS PARA VER DESPUES SE USA SINO SE BORRA
         public Usuario(Long id, String nombre, String apellido,
                        String documentoIdentidad, String celular,
                        LocalDate fechaNacimiento, String correo,
