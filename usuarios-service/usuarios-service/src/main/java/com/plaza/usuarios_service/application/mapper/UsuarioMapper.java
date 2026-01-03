@@ -1,5 +1,6 @@
 package com.plaza.usuarios_service.application.mapper;
 
+import com.plaza.usuarios_service.application.dto.request.CrearClienteRequest;
 import com.plaza.usuarios_service.domain.model.Usuario;
 import com.plaza.usuarios_service.application.dto.request.CrearPropietarioRequest;
 import com.plaza.usuarios_service.application.dto.request.CrearEmpleadoRequest;
@@ -21,6 +22,16 @@ public class UsuarioMapper {
     }
 
     public static Usuario toModelEmpleado(CrearEmpleadoRequest request) {
+        Usuario usuario = new Usuario();
+        usuario.setNombre(request.getNombre());
+        usuario.setApellido(request.getApellido());
+        usuario.setDocumentoIdentidad(request.getDocumentoIdentidad());
+        usuario.setCelular(request.getCelular());
+        usuario.setCorreo(request.getCorreo());
+        usuario.setClave(request.getClave());
+        return usuario;
+    }
+    public static Usuario toModel(CrearClienteRequest request) {
         Usuario usuario = new Usuario();
         usuario.setNombre(request.getNombre());
         usuario.setApellido(request.getApellido());

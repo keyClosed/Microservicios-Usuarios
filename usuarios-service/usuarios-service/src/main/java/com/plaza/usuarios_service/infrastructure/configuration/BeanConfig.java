@@ -5,6 +5,7 @@ package com.plaza.usuarios_service.infrastructure.configuration;
 import com.plaza.usuarios_service.domain.spi.JwtTokenPort;
 import com.plaza.usuarios_service.domain.spi.PasswordEncoderPort;
 import com.plaza.usuarios_service.domain.spi.UsuarioPersistencePort;
+import com.plaza.usuarios_service.domain.usecase.CrearClienteUseCase;
 import com.plaza.usuarios_service.domain.usecase.CrearEmpleadoUseCase;
 import com.plaza.usuarios_service.domain.usecase.CrearPropietarioUseCase;
 import com.plaza.usuarios_service.domain.usecase.LoginUseCase;
@@ -63,5 +64,13 @@ public class BeanConfig {
             PasswordEncoderPort passwordEncoderPort
     ) {
         return new CrearEmpleadoUseCase(usuarioPersistencePort, passwordEncoderPort);
+    }
+
+    @Bean
+    public CrearClienteUseCase crearClienteUseCase(
+            UsuarioPersistencePort usuarioPersistencePort,
+            PasswordEncoderPort passwordEncoderPort
+    ) {
+        return new CrearClienteUseCase(usuarioPersistencePort, passwordEncoderPort);
     }
 }
